@@ -15,7 +15,7 @@ function writePassword() {
 function main() {
   window.alert("Please select the criteria for your password remember that is must include atleast one of the options.");
   passwordCriteria.updateUpper();//window.prompt("Would you like UPPER CASE letters? y/n");
-  window.prompt("Would you like lower case letters? y/n");
+  passwordCriteria.updateLower();//window.prompt("Would you like lower case letters? y/n");
   window.prompt("Would you like numbers? y/n");
   window.prompt("Would you like special characters? (-?!/\) y/n");
   window.prompt("How many characters would you like in your password? 8-128");
@@ -41,6 +41,20 @@ var passwordCriteria = {
     }
   },
   lower:"",
+  updateLower: function() {
+    var placeholder = window.prompt("Would you like lower case letters? y/n");
+    placeholder = placeholder.toLocaleLowerCase();
+    if (placeholder === "y" || placeholder === "yes") {
+      this.lower = 'yes';
+      console.log(this.lower);
+    }
+    else if (placeholder === "n" || placeholder === "no") {
+      this.lower = 'no';
+      console.log(this.lower);
+    } else {
+      this.updateLower();
+    }
+  },
   numbers:"",
   special:"",
   lenght:"",
