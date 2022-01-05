@@ -18,7 +18,7 @@ function main() {
   passwordCriteria.updateLower();//window.prompt("Would you like lower case letters? y/n");
   passwordCriteria.updateNumbers();//window.prompt("Would you like numbers? y/n");
   passwordCriteria.updateSpecial();//window.prompt("Would you like special characters? (-?!/\) y/n");
-  window.prompt("How many characters would you like in your password? 8-128");
+  passwordCriteria.updateLength();//window.prompt("How many characters would you like in your password? 8-128");
 }
 
 // Add event listener to generate button
@@ -32,8 +32,7 @@ var passwordCriteria = {
     if (placeholder === "y" || placeholder === "yes") {
       this.upper = 'yes';
       console.log(this.upper);
-    }
-    else if (placeholder === "n" || placeholder === "no") {
+    } else if (placeholder === "n" || placeholder === "no") {
       this.upper = 'no';
       console.log(this.upper);
     } else {
@@ -47,8 +46,7 @@ var passwordCriteria = {
     if (placeholder === "y" || placeholder === "yes") {
       this.lower = 'yes';
       console.log(this.lower);
-    }
-    else if (placeholder === "n" || placeholder === "no") {
+    } else if (placeholder === "n" || placeholder === "no") {
       this.lower = 'no';
       console.log(this.lower);
     } else {
@@ -62,8 +60,7 @@ var passwordCriteria = {
     if (placeholder === "y" || placeholder === "yes") {
       this.numbers = 'yes';
       console.log(this.numbers);
-    }
-    else if (placeholder === "n" || placeholder === "no") {
+    } else if (placeholder === "n" || placeholder === "no") {
       this.numbers = 'no';
       console.log(this.numbers);
     } else {
@@ -77,38 +74,22 @@ var passwordCriteria = {
     if (placeholder === "y" || placeholder === "yes") {
       this.special = 'yes';
       console.log(this.special);
-    }
-    else if (placeholder === "n" || placeholder === "no") {
+    } else if (placeholder === "n" || placeholder === "no") {
       this.special = 'no';
       console.log(this.special);
     } else {
       this.updateSpecial();
     }
   },
-  lenght:"",
-  reset: function() {
-      this.health = 100;
-      this.money = 10;
-      this.attack = 13;
-    },
-    refillHealth: function() {
-      if (this.money >= 7) {
-        window.alert("Refilling player's health by 30 for 9 dollars.");
-        this.health += 30;
-        this.money -= 9;
-      } 
-      else {
-        window.alert("You don't have enough money for a refill!");
-      }
-    },
-    upgradeAttack: function() {
-      if (this.money >= 7) {
-        window.alert("Upgrading player's attack by 8 for 8 dollars.");
-        this.attack += 8;
-        this.money -= 8;
-      } 
-      else {
-        window.alert("You don't have enough money for an upgrade!");
-      }
+  length:"",
+  updateLength: function() {
+    var placeholder = window.prompt("How many characters would you like in your password? 8-128");
+    placeholder = parseInt(placeholder);
+    if (placeholder >= 8 && placeholder <= 128) {
+      this.length = placeholder;
+      console.log(this.length);
+    } else {
+      this.updateLength();
     }
+  },
 };
