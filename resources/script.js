@@ -161,7 +161,7 @@ function passwordGen() {
 }
 
 //Function used to create the list of possible switch cases for passwordGen(). 
-function verifyCharSelector(selector, comparator){
+function verifyCharSelector(){
   var caseSelectors = "";
   if (passwordCriteria.upper == "yes"){
     caseSelectors = caseSelectors.concat("0");
