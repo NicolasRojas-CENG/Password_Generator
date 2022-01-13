@@ -11,70 +11,19 @@ var passwordCriteria = {
   upper : "",
   //To update the upper property.
   updateUpper: function() {
-    var placeholder = window.prompt("Would you like UPPER CASE letters? y/n");
-    /*Used to catch a non-fatal error caused by .toLowerCase() later on.
-    Not really necesary.*/ 
-    if (placeholder == null) {
-      throw new Error ("You have canceled password generation.");
-    }
-    /*The if statement checks for valid answers.
-    If correct, asigns the value to the upper property.
-    Else forces the user to answer again.*/ 
-    //Allows two possible answers for yes.
-    placeholder = placeholder.toLocaleLowerCase();
-    if (placeholder === "y" || placeholder === "yes") {
-      this.upper = 'yes';
-    } else if (placeholder === "n" || placeholder === "no") { //Allows two possible answers for no.
-      this.upper = 'no';
-    } else {
-      this.updateUpper();
-    }
+    this.upper = window.confirm("Would you like UPPER CASE letters?");
   },
-  //All properties and methods follow the logic as upper and updateUpper().
   lower:"",
   updateLower: function() {
-    var placeholder = window.prompt("Would you like lower case letters? y/n");
-    if (placeholder == null) {
-      throw new Error ("You have canceled password generation.");
-    }
-    placeholder = placeholder.toLocaleLowerCase();
-    if (placeholder === "y" || placeholder === "yes") {
-      this.lower = 'yes';
-    } else if (placeholder === "n" || placeholder === "no") {
-      this.lower = 'no';
-    } else {
-      this.updateLower();
-    }
+    this.lower = window.confirm("Would you like lower case letters?");
   },
   numbers:"",
   updateNumbers: function() {
-    var placeholder = window.prompt("Would you like numbers? y/n");
-    if (placeholder == null) {
-      throw new Error ("You have canceled password generation.");
-    }
-    placeholder = placeholder.toLocaleLowerCase();
-    if (placeholder === "y" || placeholder === "yes") {
-      this.numbers = 'yes';
-    } else if (placeholder === "n" || placeholder === "no") {
-      this.numbers = 'no';
-    } else {
-      this.updateNumbers();
-    }
+    this.numbers = window.confirm("Would you like numbers?");
   },
   special:"",
   updateSpecial: function() {
-    var placeholder = window.prompt("Would you like special characters? (-?!/\) y/n");
-    if (placeholder == null) {
-      throw new Error ("You have canceled password generation.");
-    }
-    placeholder = placeholder.toLocaleLowerCase();
-    if (placeholder === "y" || placeholder === "yes") {
-      this.special = 'yes';
-    } else if (placeholder === "n" || placeholder === "no") {
-      this.special = 'no';
-    } else {
-      this.updateSpecial();
-    }
+    this.special = window.confirm("Would you like special characters? !@#$%^&*()_+= ");
   },
   length:"",
   updateLength: function() {
@@ -120,19 +69,21 @@ function gatherAnswers(){
 
 //Function used to verify that at least one of the options was set as yes.
 function verifyAnswers(){
-  if (passwordCriteria.upper === "no" && passwordCriteria.lower === "no" && passwordCriteria.numbers === "no" && passwordCriteria.special === "no"){
-    window.alert("Please select an option of characters as yes for the password to generate.");
+  if (!passwordCriteria.upper && !passwordCriteria.lower && !passwordCriteria.numbers && !passwordCriteria.special){
+    window.alert("Please select an option of characters as 'ok' for the password to generate.");
     gatherAnswers();
   }
 }
 
 //Function used to generate the password.
 function passwordGen() {
+  //debugger;
   var i = 0
+  var remover = 0;
+  //Variable to hold the possible cases that the code can execute, based on user answers.
+  var selector = check = verifyCharSelector();
   //Loop to gather all the characters requested by the user for the length.
   while  (i < passwordCriteria.length) {
-    //Variable to hold the possible cases that the code can execute, based on user answers.
-    var selector = verifyCharSelector();
     //Variable to hold the actual case to fall into.
     caseBranch = Math.floor(Math.random() * selector.length);
     //Switch to gather one desired character for the user, per loop iteration.
@@ -142,19 +93,29 @@ function passwordGen() {
       case "0"://Upper case characters.
          var char = Math.floor(Math.random()* upperList.length);
          passwordCriteria.password = passwordCriteria.password.concat(upperList.charAt(char));
+         remover = 0;
         break;
       case "1"://Lower case characters.
         var char = Math.floor(Math.random()* lowerList.length);
          passwordCriteria.password = passwordCriteria.password.concat(lowerList.charAt(char));
+         remover = 1;
         break;
       case "2"://Number characters.
         var char = Math.floor(Math.random()* numbersList.length);
          passwordCriteria.password = passwordCriteria.password.concat(numbersList.charAt(char));
+         remover = 2;
         break;
       case "3"://Symbol characters.
         var char = Math.floor(Math.random()* symbolsList.length);
          passwordCriteria.password = passwordCriteria.password.concat(symbolsList.charAt(char));
+         remover = 3;
         break;
+    }
+    if (selector.charAt(caseBranch)){
+      selector = selector.replace("" + remover, "");
+    }
+    if (selector == ""){
+      selector = check;
     }
     i++;
   }
@@ -163,16 +124,16 @@ function passwordGen() {
 //Function used to create the list of possible switch cases for passwordGen(). 
 function verifyCharSelector(selector, comparator){
   var caseSelectors = "";
-  if (passwordCriteria.upper == "yes"){
+  if (passwordCriteria.upper == true){
     caseSelectors = caseSelectors.concat("0");
   }
-  if (passwordCriteria.lower == "yes"){
+  if (passwordCriteria.lower == true){
     caseSelectors = caseSelectors.concat("1");
   }
-  if (passwordCriteria.numbers == "yes"){
+  if (passwordCriteria.numbers == true){
     caseSelectors = caseSelectors.concat("2");
   }
-  if (passwordCriteria.special == "yes"){
+  if (passwordCriteria.special == true){
     caseSelectors = caseSelectors.concat("3");
   }
   return caseSelectors;
